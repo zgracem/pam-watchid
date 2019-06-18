@@ -24,6 +24,7 @@ public func pam_sm_authenticate(pamh: pam_handler_t, flags: Int, argc: Int, argv
     reason = reason.isEmpty ? DEFAULT_REASON : reason
 
     let policy = LAPolicy.deviceOwnerAuthenticationIgnoringUserID
+    
     let context = LAContext()
     if !context.canEvaluatePolicy(policy, error: nil) {
         return PAM_IGNORE
@@ -74,7 +75,7 @@ private func parseArguments(argc: Int, argv: vchar) -> [String: String] {
 
 private extension LAPolicy {
     static var deviceOwnerAuthenticationIgnoringUserID: LAPolicy {
-        return LAPolicy(rawValue: 0x3f0) ?? .deviceOwnerAuthenticationWithBiometrics
+        return .deviceOwnerAuthenticationWithBiometricsOrWatch
     }
 }
 
