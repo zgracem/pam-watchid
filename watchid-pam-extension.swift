@@ -36,7 +36,9 @@ public func pam_sm_authenticate(pamh: pam_handler_t, flags: Int, argc: Int, argv
         defer { semaphore.signal() }
 
         if let error = error {
-            fputs("\(error.localizedDescription)\n", stderr)
+            fputs("\(error.localizedDescription)\n", stderr)			
+            result = PAM_IGNORE
+            return
         }
 
         result = success ? PAM_SUCCESS : PAM_AUTH_ERR
