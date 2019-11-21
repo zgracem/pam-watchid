@@ -12,8 +12,8 @@ public typealias pam_handler_t = UnsafeRawPointer
 
 // MARK: Biometric (touchID) authentication
 
-@_silgen_name("pam_sm_authenticate")
 public func pam_sm_authenticate(pamh: pam_handler_t, flags: Int, argc: Int, argv: vchar) -> Int {
+@_cdecl("pam_sm_authenticate")
     let sudoArguments = ProcessInfo.processInfo.arguments
     if sudoArguments.contains("-A") || sudoArguments.contains("--askpass") {
         return PAM_IGNORE
@@ -83,17 +83,17 @@ private extension LAPolicy {
 
 // MARK: - Ignored (unhandled) PAM events
 
-@_silgen_name("pam_sm_chauthtok")
 public func pam_sm_chauthtok(pamh: pam_handler_t, flags: Int, argc: Int, argv: vchar) -> Int {
+@_cdecl("pam_sm_chauthtok")
     return PAM_IGNORE
 }
 
-@_silgen_name("pam_sm_setcred")
 public func pam_sm_setcred(pamh: pam_handler_t, flags: Int, argc: Int, argv: vchar) -> Int {
+@_cdecl("pam_sm_setcred")
     return PAM_IGNORE
 }
 
-@_silgen_name("pam_sm_acct_mgmt")
 public func pam_sm_acct_mgmt(pamh: pam_handler_t, flags: Int, argc: Int, argv: vchar) -> Int {
+@_cdecl("pam_sm_acct_mgmt")
     return PAM_IGNORE
 }
