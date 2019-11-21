@@ -5,6 +5,7 @@ import LocalAuthentication
 private let PAM_SUCCESS = CInt(0)
 private let PAM_AUTH_ERR = CInt(9)
 private let PAM_IGNORE = CInt(25)
+private let PAM_SILENT = CInt(bitPattern: 0x80000000)
 private let DEFAULT_REASON = "perform an action that requires authentication"
 
 public typealias vchar = UnsafePointer<UnsafeMutablePointer<CChar>>
@@ -36,7 +37,9 @@ public func pam_sm_authenticate(pamh: pam_handle_t, flags: CInt, argc: CInt, arg
         defer { semaphore.signal() }
 
         if let error = error {
-            fputs("\(error.localizedDescription)\n", stderr)			
+            if flags & PAM_SILENT == 0 {
+                fputs("\(error.localizedDescription)\n", stderr)
+            }
             result = PAM_IGNORE
             return
         }
