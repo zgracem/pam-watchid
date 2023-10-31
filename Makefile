@@ -2,9 +2,10 @@ VERSION = 2
 LIBRARY_NAME = pam_watchid.so
 DESTINATION = /usr/local/lib/pam
 TARGET = $(shell clang -dumpmachine)
+SDKROOT = $(shell xcrun --sdk macosx --show-sdk-path)
 
 all:
-	swiftc watchid-pam-extension.swift -O -Ounchecked -gnone -o $(LIBRARY_NAME) -target $(TARGET) -emit-library
+	swiftc -sdk $(SDKROOT) watchid-pam-extension.swift -O -Ounchecked -gnone -o $(LIBRARY_NAME) -target $(TARGET) -emit-library
 
 install: all
 	mkdir -p $(DESTINATION)
